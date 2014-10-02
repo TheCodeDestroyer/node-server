@@ -49,5 +49,5 @@ app.get('/user', function(req, res) {
 
 });
 
-app.listen(process.env.PORT || 3412);
+app.listen(process.env.OPENSHIFT_INTERNAL_PORT || 8080);
 console.log('Server running at http://localhost:3412');
