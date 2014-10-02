@@ -53,4 +53,4 @@ var ipaddr = process.env.OPENSHIFT_INTERNAL_IP || "127.0.0.1";
 var port = process.env.OPENSHIFT_INTERNAL_PORT || 8080;
 
 app.listen(port, ipaddr);
-console.log('Server running at http://localhost:3412');
+console.log('Server running at http://localhost:8080');

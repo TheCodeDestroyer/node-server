@@ -4,7 +4,8 @@
   "description": "South Park Character Info API",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
+    "prestart": "npm install",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
