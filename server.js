@@ -1,52 +1,150 @@
 var express = require('express');
 var app = express();
 
-var users = [
-    { id: 1, name: 'Kyle Broflovski', age: 10, sex: 'Male', badLuck: 165, bestQuote: 'Oh my god the killed Kenny!' },
-    { id: 2, name: 'Stan Marsh', age: 10, sex: 'Male', badLuck: 167, bestQuote: 'Oh my god the killed Kenny!' },
-    { id: 3, name: 'Eric Cartman', age: 10, sex: 'Male', badLuck: 33, bestQuote: 'Screw you guys Im goin home!' },
-    { id: 4, name: 'Kenny McCormick', age: 10, sex: 'Male', badLuck: 9999, bestQuote: 'Mmmm mmmm mmmmm!' },
-    { id: 5, name: 'Randy Marsh', age: 42, sex: 'Male', badLuck: 375, bestQuote: 'Hes homeless now. We arent safe' },
-    { id: 6, name: 'Jerome McElroy', age: 40, sex: 'Male', badLuck: 750, bestQuote: 'Fudge you!' },
-    { id: 7, name: 'Herbert Garrison', age: 41, sex: 'Male', badLuck: 678, bestQuote: 'THIS - IS - LESBOS!' },
-    { id: 8, name: 'Timmy Burch', age: 10, sex: 'Male', badLuck: 0, bestQuote: 'Timmey!!!' },
-    { id: 9, name: 'Jimmy Valmer', age: 10, sex: 'Male', badLuck: 5, bestQuote: 'H-h-h-h-hello' },
-    { id: 10, name: 'Mr. Mackey', age: 48, sex: 'Male', badLuck: 876, bestQuote: 'Drugs are bad kids, mkay!' },
-    { id: 11, name: 'Tweek Tweak', age: 10, sex: 'Male', badLuck: 456, bestQuote: 'This is too much pressure. AHH!!' },
-    { id: 12, name: 'Token Black', age: 10, sex: 'Male', badLuck: 528, bestQuote: 'I dont want the codename blackie' },
-    { id: 13, name: 'Officer Barbrady', age: 30, sex: 'Male', badLuck: 10, bestQuote: 'Move along, nothing to see here' },
-    { id: 14, name: 'Sir Ike Moisha Broflovski', age: 5, sex: 'Male', badLuck: 3, bestQuote: 'Dont kick da baby' },
-    { id: 15, name: 'Towelie', age: 17, sex: 'Male', badLuck: 911, bestQuote: 'You wanna get high?' },
-    { id: 16, name: 'Mr. Slave', age: 40, sex: 'Male', badLuck: 69, bestQuote: 'Ooh, Jesus Christ!' },
-    { id: 17, name: 'Jimbo Kern', age: 51, sex: 'Male', badLuck: 321, bestQuote: 'Thats the wrong way, you stupid cow' },
-    { id: 18, name: 'Ned Gerblansky', age: 50, sex: 'Male', badLuck: 432, bestQuote: 'It looks like my ex-wife' },
-    { id: 19, name: 'Mr. José Venezuela', age: 40, sex: 'Male', badLuck: 777, bestQuote: '...' },
-    { id: 20, name: 'Mr. Twig', age: 2, sex: 'Male', badLuck: 1, bestQuote: '...' },
-    { id: 21, name: 'Tuong Lu Kim', age: 61, sex: 'Male', badLuck: 716, bestQuote: 'Welcome to the shitty wok!' },
-    { id: 22, name: 'Sir Phillip Niles Argyle', age: 54, sex: 'Male', badLuck: 6, bestQuote: 'Oh, you shitfaced cockmaster!' },
-    { id: 23, name: 'Sir Terrance Henry Stoot', age: 55, sex: 'Male', badLuck: 6, bestQuote: 'Youre a huge fan alright!' },
-    { id: 24, name: 'Dr. Alphonse Mephesto', age: 70, sex: 'Male', badLuck: 258, bestQuote: 'We can correct all of Gods mistakes, like Germans' },
-    { id: 25, name: 'Wendy Testaburger', age: 10, sex: 'Female', badLuck: 159, bestQuote: 'Dont f*** with me!' },
-    { id: 26, name: 'Bebe Stevens', age: 10, sex: 'Female', badLuck: 195, bestQuote: 'I want a Starvin Marvin!' },
-    { id: 27, name: 'Mr. Hankey the Christmas Poo', age: 40, sex: 'Male', badLuck: 0, bestQuote: 'Howdy ho!' },
-    { id: 28, name: 'Sheila Broflovski', age: 41, sex: 'Female', badLuck: 212, bestQuote: 'Never invite a New Jersey housewife into your home' },
-    { id: 29, name: 'Liane Cartman', age: 42, sex: 'Female', badLuck: 696, bestQuote: 'Erics not fat. Hes just big boned' },
-    { id: 30, name: 'Leopold Stotch', age: 10, sex: 'Male', badLuck: 2245, bestQuote: 'HEY! My uncle bud did that to me once...' }
-];
 
-app.get('/user', function(req, res) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+
+app.post('/login', function(req, res) {
 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
         res.send(200);
     }
     else {
-        res.json(users);
+        res.json({id: 1, username: 'Your majesty', sessionId: 'da39a3ee5e6b4b0d3255bfef95601890afd80709', role:'admin'});
+    }
+});
+
+app.get('/fixedasset', function(req, res) {
+
+    var fixedassets = [
+        { id: 1, code: '951', title: 'Coca Cola fridge', barcode: '63117787826', inventoryNumber: '9838762', customerId: 21, lastChange: 1412940432919 },
+        { id: 2, code: '908', title: 'Pepsi fridge', barcode: '25115821939', inventoryNumber: '8725321', customerId: 22, lastChange: 1412940432919 },
+        { id: 3, code: '887', title: 'Dr Pepper fridge', barcode: '24187454152', inventoryNumber: '8688151', customerId: 23, lastChange: 1412940432919 },
+        { id: 4, code: '679', title: 'Perrier fridge', barcode: '45896232788', inventoryNumber: '6066348', customerId: 24, lastChange: 1412940432919 },
+        { id: 5, code: '969', title: 'Heineken fridge', barcode: '67312591271', inventoryNumber: '6685081', customerId: 25, lastChange: 1412940432919 },
+        { id: 6, code: '847', title: 'Cranberries fridge', barcode: '72107327535', inventoryNumber: '1340402', customerId: 26, lastChange: 1412940432919 },
+        { id: 7, code: '968', title: 'Robinsons fridge', barcode: '37634169216', inventoryNumber: '6997905', customerId: 27, lastChange: 1412940432919 },
+        { id: 8, code: '680', title: 'Red bull fridge', barcode: '75699201491', inventoryNumber: '1745124', customerId: 28, lastChange: 1412940432919 },
+        { id: 9, code: '335', title: 'Badoit fridge', barcode: '38703609028', inventoryNumber: '6518418', customerId: 29, lastChange: 1412940432919 },
+        { id: 10, code: '741', title: 'Ginger ale fridge', barcode: '29918823646', inventoryNumber: '4246136', customerId: 30, lastChange: 1412940432919 }
+    ];
+
+    var response = { "now": new Date().getTime(), "updates": fixedassets };
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    }
+    else {
+        res.json(response);
     }
 
+});
+
+app.post('/fixedasset', function(req, res) {
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    }
+    else {
+        res.json({"status": "ok", "now": new Date().getTime()});
+    }
+});
+
+app.get('/item', function(req, res) {
+
+   var items = [
+       { id: 11, code: '951', title: 'iPad 4', serialNumberRequired: true, lastChange: 1412940432919 },
+       { id: 12, code: '132', title: 'iPhone 6', serialNumberRequired: true, lastChange: 1412940432919 },
+       { id: 13, code: '486', title: 'Nexus 5', serialNumberRequired: true, lastChange: 1412940432919 },
+       { id: 14, code: '842', title: 'Nexus 7', serialNumberRequired: true, lastChange: 1412940432919 },
+       { id: 15, code: '359', title: 'HTC One', serialNumberRequired: true, lastChange: 1412940432919 },
+       { id: 16, code: '913', title: 'Nokia Lumia', serialNumberRequired: true, lastChange: 1412940432919 },
+       { id: 17, code: '159', title: 'Nexus 10', serialNumberRequired: true, lastChange: 1412940432919 },
+       { id: 18, code: '753', title: 'Surface Pro 3', serialNumberRequired: true, lastChange: 1412940432919 },
+       { id: 19, code: '258', title: 'Samsung Galaxy S5', serialNumberRequired: false, lastChange: 1412940432919 },
+       { id: 20, code: '963', title: 'Sony Xperia Z3', serialNumberRequired: false, lastChange: 1412940432919 }
+   ];
+
+    var response = { "now": new Date().getTime(), "updates": items };
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    }
+    else {
+        res.json(response);
+    }
+
+});
+
+app.post('/item', function(req, res) {
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    }
+    else {
+        res.json({"status": "ok", "now": new Date().getTime()});
+    }
+});
+
+app.get('/customer', function(req, res) {
+
+    var customers = [
+        { id: 21, code: '951', title: 'The Coca-Cola Company', lastChange: 1412940432919, contactPerson: 'William X. Chandler', telephoneNumber: '415-392-0431' },
+        { id: 22, code: '147', title: 'PepsiCo Inc.', lastChange: 1412940432919, contactPerson: 'Leslie K. Becker', telephoneNumber: '808-945-8950' },
+        { id: 23, code: '456', title: 'Dr Pepper Snapple Group, Inc.', lastChange: 1412940432919, contactPerson: 'David S. McLeod', telephoneNumber: '317-728-0739' },
+        { id: 24, code: '652', title: 'Nestlé Waters', lastChange: 1412940432919, contactPerson: 'Ross C. Beckett', telephoneNumber: '262-642-2713' },
+        { id: 25, code: '784', title: 'Heineken NV', lastChange: 1412940432919, contactPerson: 'David T. Sheffield', telephoneNumber: '801-791-4869' },
+        { id: 26, code: '364', title: 'Ocean Spray Cranberries, Inc.', lastChange: 1412940432919, contactPerson: 'John A. Buckle', telephoneNumber: '504-599-7354' },
+        { id: 27, code: '934', title: 'Britvic Plc', lastChange: 1412940432919, contactPerson: 'Gerald J. Lacroix', telephoneNumber: '952-472-6400' },
+        { id: 28, code: '846', title: 'Red Bull GmbH', lastChange: 1412940432919, contactPerson: 'Steven D. Folse', telephoneNumber: '630-507-5608' },
+        { id: 29, code: '153', title: 'Groupe Danone Water Division', lastChange: 1412940432919, contactPerson: 'George S. Trent', telephoneNumber: '573-400-7660' },
+        { id: 30, code: '132', title: 'Cott Corporation', lastChange: 1412940432919, contactPerson: 'Karin B. Griffin', telephoneNumber: '208-693-7086' }
+    ];
+
+    var response = { "now": new Date().getTime(), "updates": customers };
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    }
+    else {
+        res.json(response);
+    }
+
+});
+
+app.post('/customer', function(req, res) {
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    }
+    else {
+        res.json({"status": "ok", "now": new Date().getTime()});
+    }
 });
 
 var ipaddr = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
